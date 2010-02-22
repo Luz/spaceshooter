@@ -22,6 +22,7 @@ class ObjectHandler
         void displayAllObjects();
         virtual ~ObjectHandler();
     private:
+        bool checkCollision(Object &obj1, Object &obj2);
         Engine* mEngine;
         boost::array<Object*, 30> mObjects;
 };

@@ -38,7 +38,7 @@ void ObjectHandler::newObject(ObjectType typ, std::complex<float> position, floa
                 //    mObjects[i] = new Schuss("data/spieler.png");
                 //    break;
                 default://Else
-                    std::cout << "dont know this object, (so didnt created any shit)" << std::endl;
+                    std::cout << "dont know this object, (so didnt create any shit)" << std::endl;
                     break;
             }
             break;
@@ -46,12 +46,44 @@ void ObjectHandler::newObject(ObjectType typ, std::complex<float> position, floa
     }
 }
 
+bool ObjectHandler::checkCollision(Object &obj1, Object &obj2)
+{
+    // TODO: remove fixnum 10 with object size or radius
+    if( (obj1.getMiddleX() <= (obj2.getMiddleX()+10) && obj1.getMiddleX() >= (obj2.getMiddleX()-10))
+     && (obj1.getMiddleY() <= (obj2.getMiddleY()+10) && obj1.getMiddleY() >= (obj2.getMiddleY()-10)))
+     {
+         return true;
+     }
+     return false;
+}
+
 void ObjectHandler::updateMovement()
 {
     for (unsigned int i=0; i!=mObjects.max_size(); ++i)
     {//let every existing object calculate the new Position
         if(mObjects[i] != NULL)
+        {
             mObjects[i]->positionUpdate();
+            ObjectType type = mObjects[i]->getType();
+            if(type == ASTEROID )
+            {
+                // check for collision with all remaining objects
+                for(unsigned int j=i; j!=mObjects.max_size(); ++j)
+                {
+                    if(mObjects[j] && j!=i)
+                    {
+                        if(mObjects[j]->getType() == ASTEROID && checkCollision(*mObjects[i], *mObjects[j]))
+                        {
+                            delete mObjects[j];
+                            delete mObjects[i];
+                            mObjects[j]=0;
+                            mObjects[i]=0;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

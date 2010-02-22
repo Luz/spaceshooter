@@ -21,6 +21,7 @@ class Object
         SDL_Surface* getRotatedImg();
         void display();
         virtual bool getCriticalPosition();
+        ObjectType getType() { return Type; };
         virtual ~Object();
     protected:
         ObjectType Type;
