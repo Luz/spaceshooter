@@ -4,16 +4,15 @@
 #include <string>
 #include <iostream>
 
-#include <fstream>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+//#include <fstream>
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/archive/text_iarchive.hpp>
 
 #include "global.hpp"
 #include "Engine.hpp"
 #include "Rakete.hpp"
 #include "Asteroid.hpp"
-//#include "SDL_rotozoom.h" // remove this after correcting "the loading of background" in the constructor of Engine
-//teeest!test!test!test!!!
+
 int Engine::Enginecounter=0;
 
 Engine::Engine()
@@ -136,23 +135,6 @@ void Engine::addObject(int typ)
     }
 }
 
-/*void Engine::displayObject(Object* mobject)
-{
-    if(mobject != NULL)
-        //applySurface(mobject->getMiddleX(), mobject->getMiddleY(), mobject->getRotatedImg());
-    {
-        SDL_Surface* tmp = mobject->getRotatedImg();
-        if(tmp == 0)
-            std::cout << "tmp is 0, cant blit that" << std::endl;
-        SDL_Rect offset;
-        offset.x = mobject->getMiddleX();
-        offset.y = mobject->getMiddleY();
-        SDL_BlitSurface(tmp, NULL, Background, &offset);
-    }
-    else
-        std::cout << "mobject == 0!" << std::endl;
-}*/
-
 void Engine::moveUpdater()
 {
     if(mPlayerHandler != NULL) //let the object(player) calculate his new Position
@@ -173,16 +155,6 @@ void Engine::keyPlayer(int key)
     if( (mPlayerHandler != NULL) && (Pause == false) )
     {
         mPlayerHandler->keyDown(key);
-/*        switch (key)
-        {
-            case 1: mPlayerHandler->keyDown(key); break; //incSpeed(0.2); break;
-            case 2: mPlayerHandler->incSpeed(-0.2); break;
-            case 3: mPlayerHandler->rotatePlayer(10); break;
-            case 4: mPlayerHandler->rotatePlayer(-10); break;
-            case 5: mPlayerHandler->schiessen(); break;
-            //case 6: delete mPlayer; mPlayer = 0; break;
-            default: break;
-        }*/
     }
 }
 
@@ -302,16 +274,6 @@ SDL_Surface* Engine::getBackground()
 
 Engine::~Engine()
 {
-    /*char typeString[32];
-    switch (mObjects[i]->getType())
-    {
-        case OBJEKT:    strcpy(typeString, "Objekt"); break;
-        case RAKETE:    strcpy(typeString, "Rakete"); break;
-        case ASTEROID:  strcpy(typeString, "Asteroid"); break;
-        case GEGNER:    strcpy(typeString, "Gegner"); break;
-        default:        strcpy(typeString, "WtfIsThis?"); break;
-    }*/
-    //std::cout << "Deleting a : " << typeString << std::endl;
     //not necessary to set the pointer to zero, the engine wont exist in a few
     delete mObjectHandler;
 
