@@ -44,7 +44,27 @@ int Object::getMiddleY()
 
 void Object::positionUpdate()
 {
-    Position = std::complex<float>(Position.real() + Speed.real(), Position.imag() + Speed.imag());
+    float real, imag;
+    real = Position.real()+Speed.real();
+    imag = Position.imag()+Speed.imag();
+   // printf("%f, %f\n",Position.real(), Position.imag());
+    if(Position.real() < 0)
+    {
+        real = 800;
+    }
+    if(Position.imag() < 0)
+    {
+        imag = 480;
+    }
+    if(Position.real() > 800)
+    {
+        real = 0;
+    }
+    if(Position.imag() > 480)
+    {
+        imag = 0;
+    }
+    Position = std::complex<float>(real, imag);
 }
 
 void Object::rotate(float angle)

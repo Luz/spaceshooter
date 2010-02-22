@@ -57,32 +57,32 @@ void ObjectHandler::updateMovement()
 
 void ObjectHandler::displayAllObjects()
 {
-//first check the position of the objects, and if they are too far, kill them
-for (int i=0; i!=mObjects.max_size(); ++i)
-{
-    if(mObjects[i] != NULL)
-    {
-        if(mObjects[i]->getCriticalPosition() == true)
-        {
-            delete mObjects[i];
-            mObjects[i] = 0;
-        }
-    }
-}
-//then, if the objects are still alive, lets display them
-for (unsigned int i=0; i!=mObjects.max_size(); ++i)
+    //first check the position of the objects, and if they are too far, kill them
+    for (unsigned int i=0; i!=mObjects.max_size(); ++i)
     {
         if(mObjects[i] != NULL)
         {
-            SDL_Surface* tmp = mEngine->getBackground();
-            if(tmp == 0)
-                std::cout << "tmp is 0, cant blit that" << std::endl;
-            SDL_Rect offset;
-            offset.x = mObjects[i]->getMiddleX();
-            offset.y = mObjects[i]->getMiddleY();
-            SDL_BlitSurface(mObjects[i]->getRotatedImg(), NULL, tmp, &offset);
+            if(mObjects[i]->getCriticalPosition() == true)
+            {
+                delete mObjects[i];
+                mObjects[i] = 0;
+            }
         }
     }
+    //then, if the objects are still alive, lets display them
+    for (unsigned int i=0; i!=mObjects.max_size(); ++i)
+        {
+            if(mObjects[i] != NULL)
+            {
+                SDL_Surface* tmp = mEngine->getBackground();
+                if(tmp == 0)
+                    std::cout << "tmp is 0, cant blit that" << std::endl;
+                SDL_Rect offset;
+                offset.x = mObjects[i]->getMiddleX();
+                offset.y = mObjects[i]->getMiddleY();
+                SDL_BlitSurface(mObjects[i]->getRotatedImg(), NULL, tmp, &offset);
+            }
+        }
 }
 
 ObjectHandler::~ObjectHandler()
