@@ -12,4 +12,9 @@ denn:
 git push origin master
 
 
+little help for guggi:
+compilieren mit folgendem ide linker-optionä:
+-lSDL -lSDL_image
 
+oder mit
+-lSDL -lSDL_image -lSDL_ttf
