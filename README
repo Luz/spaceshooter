@@ -1,0 +1,15 @@
+little help for Luz:
+
+zersch:
+git commit -a
+iblablabla:wq
+git commit -a
+
+ev:
+git add README
+
+denn:
+git push origin master
+
+
+
