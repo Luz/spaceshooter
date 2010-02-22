@@ -30,10 +30,10 @@ void ObjectHandler::newObject(ObjectType typ, std::complex<float> position, floa
                 //case 3://Gegner
                 //    mObjects[i] = new Gegner("data/gegner.png"); //todo class gegner
                 //    break;
-                /*case 4://Rakete
-                    //mObjects[i] = dynamic_cast<Object*> (new Rakete("data/rakete.png"));
-                    mObjects[i] = new Rakete("data/rakete.png");
-                    break;*/
+                case 4://Rakete
+                    mObjects[i] = dynamic_cast<Object*> (new Rakete("data/rakete.png"));
+                    //mObjects[i] = new Rakete("data/rakete.png");
+                    break;
                 //case 5://Schuss
                 //    mObjects[i] = new Schuss("data/spieler.png");
                 //    break;

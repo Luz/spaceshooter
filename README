@@ -11,6 +11,11 @@ git add README
 denn:
 git push origin master
 
+git notes roughl:
+git add $all_changed_files
+git commit -m "your message"
+git push origin master
+
 
 little help for guggi:
 compilieren mit folgendem ide linker-optionä:
