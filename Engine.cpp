@@ -12,8 +12,8 @@
 #include "Engine.hpp"
 #include "Rakete.hpp"
 #include "Asteroid.hpp"
-#include "SDL_rotozoom.h" // remove this after correcting "the loading of background" in the constructor of Engine
-
+//#include "SDL_rotozoom.h" // remove this after correcting "the loading of background" in the constructor of Engine
+//teeest!test!test!test!!!
 int Engine::Enginecounter=0;
 
 Engine::Engine()
