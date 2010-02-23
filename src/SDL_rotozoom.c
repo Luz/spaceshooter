@@ -395,7 +395,7 @@ int zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy, 
 
 int zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)
 {
-    Uint32 x, y, sx, sy, *sax, *say, *csax, *csay;
+    Uint32 x, y, *sax, *say, *csax, *csay;
     int csx, csy;
     Uint8 *sp, *dp, *csp;
     int dgap;
