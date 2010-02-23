@@ -48,9 +48,11 @@ void ObjectHandler::newObject(ObjectType typ, std::complex<float> position, floa
 
 bool ObjectHandler::checkCollision(Object &obj1, Object &obj2)
 {
-    // TODO: remove fixnum 10 with object size or radius
-    if( (obj1.getMiddleX() <= (obj2.getMiddleX()+10) && obj1.getMiddleX() >= (obj2.getMiddleX()-10))
-     && (obj1.getMiddleY() <= (obj2.getMiddleY()+10) && obj1.getMiddleY() >= (obj2.getMiddleY()-10)))
+    float x = obj1.getMiddleX() - obj2.getMiddleX();
+    float y = obj1.getMiddleY() - obj2.getMiddleY();
+    float distanz = sqrt(x*x+y*y);
+    // TODO: Radius seems to be wrong, without -10 it looks ugly
+    if (distanz - (obj1.getRadius()+obj2.getRadius()) < -10 )
      {
          return true;
      }
@@ -68,9 +70,9 @@ void ObjectHandler::updateMovement()
             if(type == ASTEROID )
             {
                 // check for collision with all remaining objects
-                for(unsigned int j=i; j!=mObjects.max_size(); ++j)
+                for(unsigned int j=i+1; j!=mObjects.max_size(); ++j)
                 {
-                    if(mObjects[j] && j!=i)
+                    if(mObjects[j] )
                     {
                         if(mObjects[j]->getType() == ASTEROID && checkCollision(*mObjects[i], *mObjects[j]))
                         {

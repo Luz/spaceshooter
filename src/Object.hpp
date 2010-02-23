@@ -22,6 +22,7 @@ class Object
         void display();
         virtual bool getCriticalPosition();
         ObjectType getType() { return Type; };
+        unsigned int getRadius() { return Radius; };
         virtual ~Object();
     protected:
         ObjectType Type;
