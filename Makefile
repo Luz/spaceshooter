@@ -41,8 +41,6 @@ run:
 
 install: all uninstall
 	cp $(TARGET) $(PREFIX)/bin && chmod 755 $(PREFIX)/bin/$(TARGET)
-	cp vimprobable.1 $(PREFIX)/man/man1 && chmod 644 $(PREFIX)/man/man1/vimprobable.1
 
 uninstall:
 	rm -f $(PREFIX)/bin/$(TARGET)
-	rm -f $(PREFIX)/man/man1/vimprobable.1
