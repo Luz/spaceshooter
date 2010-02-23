@@ -1,7 +1,7 @@
 GCC     = gcc
 GPP	= g++
 LIBS    = sdl
-LIBS   += SDL_image
+#LIBS   += SDL_image
 FLAGS   = `pkg-config  --cflags --libs $(LIBS) ` -lSDL_image -Wall
 TARGETS  = main.o
 TARGETS += SDL_rotozoom.out
