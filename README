@@ -12,9 +12,17 @@ denn:
 git push origin master
 
 git notes roughl:
-git add $all_changed_files
+# view your changes
+git status
+git diff
+
+# commit your changes:
+git add "list-of-your-changed-files"
 git commit -m "your message"
 git push origin master
+
+# update
+git pull
 
 
 little help for guggi:
