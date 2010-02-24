@@ -10,6 +10,7 @@
 
 #include "Object.hpp"
 #include "Engine.hpp"
+#include "global.hpp"
 
 Object::Object(std::string filename, ObjectType type, float x, float y, float speedx, float speedy)
 :Type(type), Position(x, y), Speed(speedx + speedy * 1i), Angle(0), Image(NULL), RotatedImage(NULL), Radius(20)
@@ -44,26 +45,21 @@ int Object::getMiddleY()
 
 void Object::positionUpdate()
 {
-    float real, imag;
-    real = Position.real()+Speed.real();
-    imag = Position.imag()+Speed.imag();
-   // printf("%f, %f\n",Position.real(), Position.imag());
+    //first, calculate the new position
+    float real = Position.real()+Speed.real();
+    float imag = Position.imag()+Speed.imag();
+
+    //then, wrap the position around if its in the wrong place
+    //if the object is too fast (speed bigger than screenwidth) it should disappear from the screen, but such a speed...
     if(Position.real() < 0)
-    {
-        real = 800;
-    }
+        real += (float)SCREEN_WIDTH;
     if(Position.imag() < 0)
-    {
-        imag = 480;
-    }
-    if(Position.real() > 800)
-    {
-        real = 0;
-    }
-    if(Position.imag() > 480)
-    {
-        imag = 0;
-    }
+        imag += (float)SCREEN_HEIGHT;
+    if(Position.real() > SCREEN_WIDTH)
+        real -= (float)SCREEN_WIDTH;
+    if(Position.imag() > SCREEN_HEIGHT)
+        imag -= (float)SCREEN_HEIGHT;
+
     Position = std::complex<float>(real, imag);
 }
 
