@@ -1,5 +1,5 @@
 #include <math.h>
-#include <iostream>
+//#include <iostream>
 
 #include "Schuss.hpp"
 
@@ -7,7 +7,7 @@ Schuss::Schuss(std::string filename, double angle, std::complex<double> position
 :Object(filename, SCHUSS, position.real(), position.imag(),
 speed*cos((angle+90)/180*M_PI),speed*sin((angle-90)/180*M_PI)), Type(type), Weight(1), Age(0)
 {
-    std::cout << "Schuss::Schuss();" << std::endl;
+    //std::cout << "Schuss::Schuss();" << std::endl;
     Angle = angle;
 }
 
@@ -19,5 +19,5 @@ unsigned int Schuss::getAgeWhileAging()
 
 Schuss::~Schuss()
 {
-    std::cout << "Schuss::~Schuss();" << std::endl;
+    //std::cout << "Schuss::~Schuss();" << std::endl;
 }

@@ -3,9 +3,6 @@
 #include <math.h>
 #include <complex>
 
-//#include "utilf.h"
-//#include "interpolation.h"
-
 #include "SDL_rotozoom.h"
 
 #include "Object.hpp"
@@ -34,13 +31,13 @@ Object::Object(std::string filename, ObjectType type, double x, double y, double
 }
 
 int Object::getMiddleX()
-{
-    return (int)(Position.real() - (getRotatedImg()->w / 2) + 0.5f);
+{   //0.5f has been outcommented, because its not much
+    return (int)(Position.real() - (getRotatedImg()->w / 2) );//+ 0.5l);
 } //todo: very slow to check the size of the rotatedimg each time?
 
 int Object::getMiddleY()
-{
-    return (int)(Position.imag() - (getRotatedImg()->h / 2) + 0.5f);
+{   //0.5f has been outcommented, because its not much
+    return (int)(Position.imag() - (getRotatedImg()->h / 2) );//+ 0.5l);
 } //todo: very slow to check the size of the rotatedimg each time?
 
 void Object::positionUpdate()
@@ -76,23 +73,20 @@ void Object::incSpeed(double inc)
 
 SDL_Surface* Object::getRotatedImg()
 {
-    if(Image == NULL)
-        std::cout << "Error: Image == NULL" << std::endl; //remove? will never happen
-    else
+    if(Image != NULL)
     {
         SDL_FreeSurface(RotatedImage); //Free the Memory of the old RotatedImage
-        RotatedImage = NULL; //remove this?
+        //RotatedImage = NULL; //unnecessary
         RotatedImage = rotozoomSurface(Image, Angle, 0.9, 1);//Allocate new Memory for the new RotatedImage
-
-        if(RotatedImage == NULL)
-            std::cout << "Error: RotatedImage == NULL" << std::endl; //remove? will never happen
     }
+    if(Image == NULL)
+        std::cout << "Error: Image == NULL" << std::endl; //should absolutely never happen
     return RotatedImage;
 }
 
 bool Object::getCriticalPosition()
-{
-    return false; //todo: calculate the critical position in the derivated objects, such as asteroid.cpp. overwrite this function!
+{   //todo: calculate the critical position in the derivated objects, such as asteroid.cpp. overwrite this function!
+    return false;
 }
 
 Object::~Object()

@@ -8,15 +8,12 @@
 #include <boost/array.hpp>
 
 #include "timer.hpp"
-//#include "Spieler.hpp"
 #include "SchussHandler.hpp"
 #include "ObjectHandler.hpp"
 #include "PlayerHandler.hpp"
 
-//class Object;
 class Spieler;
 class Timer;
-class Schuss;
 class SchussHandler;
 class ObjectHandler;
 class PlayerHandler;
@@ -30,7 +27,6 @@ public:
 	void addObject(int typ);
 	void moveUpdater();
 	void keyPlayer(int key);
-	void rotatePlayer(float angle);
 	void update();
 	bool getQuit();
 	void setQuit();

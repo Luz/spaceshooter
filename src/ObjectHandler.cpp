@@ -121,13 +121,13 @@ void ObjectHandler::displayAllObjects()
 
 ObjectHandler::~ObjectHandler()
 {
-    std::cout << "ObjectHandler::~ObjectHandler();" << std::endl;
+    //std::cout << "ObjectHandler::~ObjectHandler();" << std::endl;
     for (unsigned int i=0; i!=mObjects.max_size(); ++i)
     { //not necessary to set te pointers to Zero, because the ObjectHandler will be destroyed very soon
         if(mObjects[i] != NULL)
         {
             delete mObjects[i];
-            std::cout << "\tdelete mObjects[" << i << "]" << std::endl;
+            //std::cout << "\tdelete mObjects[" << i << "]" << std::endl;
         }
     }
 }

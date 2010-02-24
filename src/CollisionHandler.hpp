@@ -16,8 +16,8 @@ class CollisionHandler
 {
     public:
         CollisionHandler(Engine* mengine);
-        bool checkCollision(std::complex<float> position1, unsigned int radius1,
-                            std::complex<float> position2, unsigned int radius2);
+        bool checkCollision(std::complex<double> position1, unsigned int radius1,
+                            std::complex<double> position2, unsigned int radius2);
         void executeCollision();
         void executeAllCollisions();
     private:

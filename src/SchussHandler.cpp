@@ -58,29 +58,28 @@ for (unsigned int i=0; i!=mSchuesse.max_size(); ++i)
             offset.y = mSchuesse[i]->getMiddleY();
             SDL_BlitSurface(mSchuesse[i]->getRotatedImg(), NULL, tmp, &offset);
         }
-        else
+        /*else
         {
-            //std::cout << "mschuss == 0!" << std::endl;
-        }
-            //mEngine->displaySchuss(mSchuesse[i]); //segfault problem is near the blit thing
+            std::cout << "mschuss == 0!" << std::endl;
+        }*/
     }
 }
 
 unsigned int SchussHandler::getSchussCoolDown()
 {
-    return 1; //todo: the cooldown of each shoot has to be individual. atm its "1/25" seconds
+    return 3; //todo: the cooldown of each shoot has to be individual. atm its "3/25" seconds
 }
 
 SchussHandler::~SchussHandler()
 {
-    std::cout << "SchussHandler::~SchussHandler();" << std::endl;
+    //std::cout << "SchussHandler::~SchussHandler();" << std::endl;
     for (unsigned int i=0; i!=mSchuesse.max_size(); ++i)
     { //not necessary to set te pointers to Zero, because the SchussHandler will be destroyed very soon
         if(mSchuesse[i] != NULL)
         {
             delete mSchuesse[i];
             //mSchuesse[i] = NULL; //yep, not necessary
-            std::cout << "\tdelete mSchuesse[" << i << "]" << std::endl;
+            //std::cout << "\tdelete mSchuesse[" << i << "]" << std::endl;
         }
     }
 }

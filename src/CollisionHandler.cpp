@@ -8,8 +8,8 @@ CollisionHandler::CollisionHandler(Engine* mengine)//, ObjectHandler* mobjecthan
     //for (int i=0; i!=mSchuesse.max_size(); ++i) mSchuesse[i] = NULL;
 }
 
-bool CollisionHandler::checkCollision(std::complex<float> position1, unsigned int radius1,
-                                        std::complex<float> position2, unsigned int radius2)
+bool CollisionHandler::checkCollision(std::complex<double> position1, unsigned int radius1,
+                                        std::complex<double> position2, unsigned int radius2)
 {
     return false; //todo: implement this method!
 }

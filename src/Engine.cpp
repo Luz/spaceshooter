@@ -53,30 +53,9 @@ Engine::Engine()
 	if(Background == NULL)
 	    std::cout << "Error: Coult not find the background image in data/background.png" << std::endl;
 
-/* doesnt work :'( but creates a cool "ghost"-effect!
-    // create an image for the Background with 32 bit and RGBA, but not from file
-    Background = SDL_CreateRGBSurface(SDL_SWSURFACE, LoadedBackgroundImage->w, LoadedBackgroundImage->h, 32,
-        #if SDL_BYTEORDER == SDL_LIL_ENDIAN
-                                    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
-        #else
-                                    0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
-        #endif
-                                    );
-	if(Background == NULL)
-	    std::cout << "Error: Coult not initialize the background" << std::endl;
-    //SDL_BlitSurface(LoadedBackgroundImage, NULL, Background, NULL);
-    SDL_BlitSurface(LoadedBackgroundImage, NULL, Screen, NULL);
-    //SDL_BlitSurface(Background, NULL, Screen, NULL);
-    SDL_Flip(Screen);
-    SDL_Delay(1000);*/
-
     srand(time(0));
 
     mPlayerHandler->newPlayer(MENSCH);
-
-//    mPlayer = new Spieler("data/spieler.png"/*,mSpielerHandler*/, mSchussHandler);
-//    if(mPlayer == NULL)
-//	    std::cout << "Coult not create the player-rakete" << std::endl;
 
     Fps.start();
 }
@@ -96,16 +75,6 @@ SDL_Surface* Engine::load_image(std::string filename)
         std::cout << "Error, maybe Picture not found: " << filename.c_str() << std::endl;
     return optimizedImage;
 }
-/*
-void Engine::applySurface(int x, int y, SDL_Surface* source, SDL_Rect* clip)
-{
-    if(source == 0)
-        std::cout << "source is 0, cant blit that" << std::endl;
-    SDL_Rect offset;
-	offset.x = x;
-	offset.y = y;
-    SDL_BlitSurface(source, clip, Background, &offset);
-}*/
 
 void Engine::addObject(int typ)
 {
@@ -137,17 +106,20 @@ void Engine::addObject(int typ)
 
 void Engine::moveUpdater()
 {
-    if(mPlayerHandler != NULL) //let the object(player) calculate his new Position
+    if(mPlayerHandler != NULL) //let the playerhandler calculate the new position of the player
         mPlayerHandler->updateMovement();
-    //if(mPlayer != NULL)
-    //    mPlayer->positionUpdate();
+    /*else
+        std::cout << "Engine: mPlayerHandler is 0" << std::endl;*/
 
-    mObjectHandler->updateMovement();
+    if(mObjectHandler != NULL)
+        mObjectHandler->updateMovement();
+    /*else
+        std::cout << "Engine: mObjectHandler is 0" << std::endl;*/
 
     if(mSchussHandler != NULL)
-    {
         mSchussHandler->updateMovement();
-    }
+    /*else
+        std::cout << "Engine: mSchussHandler is 0" << std::endl;*/
 }
 
 void Engine::keyPlayer(int key)
@@ -158,23 +130,16 @@ void Engine::keyPlayer(int key)
     }
 }
 
-/*void Engine::rotatePlayer(float angle)
-{
-    mPlayer->setAngle(mPlayer->getAngle() + angle);
-}*/
-
 void Engine::update()
 {
     if(Pause == false)
     {
         moveUpdater();
 
-        //Background = LoadedBackgroundImage;
-//        applySurface(0, 0, LoadedBackgroundImage);
         SDL_BlitSurface(LoadedBackgroundImage, NULL, Background, NULL);
 
         if(mPlayerHandler != NULL)
-            mPlayerHandler->displayAllPlayers();//draw the player on the background
+            mPlayerHandler->displayAllPlayers();//draw the players on the background
         else
             std::cout << "Error: mPlayerHandler is 0" << std::endl;
 
@@ -216,7 +181,7 @@ void Engine::setQuit()
 void Engine::exit()
 {
     SDL_FreeSurface(Background);
-    SDL_FreeSurface(Screen);// bruchts die ziilä eigentlich würklich nöd? s'tutorial meint "nei", ich denk es het falsch
+    SDL_FreeSurface(Screen); // really not required? may it be required?
     SDL_Quit();
 }
 

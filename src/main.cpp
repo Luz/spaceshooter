@@ -3,9 +3,7 @@
 #include "SDL/SDL_ttf.h"
 #include <string>
 
-//#include "global.hpp"
 #include "Engine.hpp"
-//#include "Rakete.hpp"
 
 int main()
 {
