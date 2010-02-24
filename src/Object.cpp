@@ -12,7 +12,7 @@
 #include "Engine.hpp"
 #include "global.hpp"
 
-Object::Object(std::string filename, ObjectType type, float x, float y, float speedx, float speedy)
+Object::Object(std::string filename, ObjectType type, double x, double y, double speedx, double speedy)
 :Type(type), Position(x, y), Speed(speedx + speedy * 1i), Angle(0), Image(NULL), RotatedImage(NULL), Radius(20)
 {
     SDL_Surface* LoadedImage = NULL;
@@ -46,31 +46,31 @@ int Object::getMiddleY()
 void Object::positionUpdate()
 {
     //first, calculate the new position
-    float real = Position.real()+Speed.real();
-    float imag = Position.imag()+Speed.imag();
+    double real = Position.real()+Speed.real();
+    double imag = Position.imag()+Speed.imag();
 
     //then, wrap the position around if its in the wrong place
     //if the object is too fast (speed bigger than screenwidth) it should disappear from the screen, but such a speed...
     if(Position.real() < 0)
-        real += (float)SCREEN_WIDTH;
+        real += (double)SCREEN_WIDTH;
     if(Position.imag() < 0)
-        imag += (float)SCREEN_HEIGHT;
+        imag += (double)SCREEN_HEIGHT;
     if(Position.real() > SCREEN_WIDTH)
-        real -= (float)SCREEN_WIDTH;
+        real -= (double)SCREEN_WIDTH;
     if(Position.imag() > SCREEN_HEIGHT)
-        imag -= (float)SCREEN_HEIGHT;
+        imag -= (double)SCREEN_HEIGHT;
 
-    Position = std::complex<float>(real, imag);
+    Position = std::complex<double>(real, imag);
 }
 
-void Object::rotate(float angle)
+void Object::rotate(double angle)
 {
     Angle += angle;
 }
 
-void Object::incSpeed(float inc)
+void Object::incSpeed(double inc)
 {
-    std::complex<float> SpeedIncAngle(0,((Angle+90)/180*M_PI));
+    std::complex<double> SpeedIncAngle(0,((Angle+90)/180*M_PI));
     Speed += inc * exp(-SpeedIncAngle);
 }
 

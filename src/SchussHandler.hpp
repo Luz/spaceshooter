@@ -13,7 +13,7 @@ class SchussHandler
 {
     public:
         SchussHandler(Engine* mengine);
-        void newShoot(std::complex<float> position, float angle, int schusstyp);
+        void newShoot(std::complex<double> position, double angle, int schusstyp);
         void updateMovement();
         void displayAllShoots();
         unsigned int getSchussCoolDown();

@@ -13,7 +13,7 @@ class Spieler: public Object
 {
     public:
         Spieler(std::string filename, PlayerHandler* mplayerhandler, SchussHandler* mschusshandler,
-            float x = SCREEN_WIDTH / 2, float y = SCREEN_HEIGHT / 3 * 2 );
+            double x = (double)SCREEN_WIDTH / 2, double y = (double)SCREEN_HEIGHT / 3 * 2 );
         void schiessen();
         void decSchussCoolDown();
         virtual ~Spieler();

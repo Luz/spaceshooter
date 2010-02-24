@@ -8,7 +8,7 @@ SchussHandler::SchussHandler(Engine* mengine)
     for (unsigned int i=0; i!=mSchuesse.max_size(); ++i) mSchuesse[i] = NULL;
 }
 
-void SchussHandler::newShoot(std::complex<float> position, float angle, int schusstyp)
+void SchussHandler::newShoot(std::complex<double> position, double angle, int schusstyp)
 {
     //alle schüsse sollten hier abgefeuert werden
     for (unsigned int i=0; i!=mSchuesse.max_size(); ++i)

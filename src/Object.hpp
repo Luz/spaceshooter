@@ -12,12 +12,12 @@ class Engine;
 class Object
 {
 	public:
-        Object(std::string filename, ObjectType type=OBJEKT, float x = 0, float y = 0, float speedx = 0, float speedy = 0);
+        Object(std::string filename, ObjectType type=OBJEKT, double x = 0, double y = 0, double speedx = 0, double speedy = 0);
         int getMiddleX();
         int getMiddleY();
         void positionUpdate();
-        void rotate(float angle);
-        void incSpeed(float inc);
+        void rotate(double angle);
+        void incSpeed(double inc);
         SDL_Surface* getRotatedImg();
         void display();
         virtual bool getCriticalPosition();
@@ -26,9 +26,9 @@ class Object
         virtual ~Object();
     protected:
         ObjectType Type;
-        std::complex<float> Position;
-        std::complex<float> Speed;
-		float Angle;
+        std::complex<double> Position;
+        std::complex<double> Speed;
+		double Angle;
 	private:
         SDL_Surface* Image;
         SDL_Surface* RotatedImage;
