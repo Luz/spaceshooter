@@ -3,13 +3,15 @@
 #include "SDL/SDL_ttf.h"
 #include <string>
 
+#include <iostream>
+
 #include "Engine.hpp"
 
 int main()
 {
     Engine E;
     SDL_Event event;
-
+Uint8* Keystates = SDL_GetKeyState(NULL);
 	while(false == E.getQuit())
 	{
 		while(SDL_PollEvent(&event))
@@ -40,17 +42,25 @@ int main()
                 }
 			}
 		}
-		E.readKeyStates();
+
+        if(Keystates[SDLK_y])
+            {std::cout << "y" << std::endl;}
+        if(Keystates[SDLK_x])
+            {std::cout << "x" << std::endl;}
+        if(Keystates[SDLK_c])
+            {std::cout << "c" << std::endl;}
+        //not able to press all 3 buttons at the same time... who can find the bug?
+
         if(E.getKeyState(SDLK_UP))
-            E.keyPlayer(1);
+            E.keyPlayer(1);// std::cout << "UP" << std::endl;}
         if(E.getKeyState(SDLK_DOWN))
             E.keyPlayer(2);
         if(E.getKeyState(SDLK_LEFT))
-            E.keyPlayer(3);
+            E.keyPlayer(3);// std::cout << "LEFT" << std::endl;}
         if(E.getKeyState(SDLK_RIGHT))
             E.keyPlayer(4);
         if(E.getKeyState(SDLK_SPACE))
-            E.keyPlayer(5);
+            E.keyPlayer(5);// std::cout << "SPACE" << std::endl;}
         if(E.getKeyState(SDLK_a))
             E.addObject(2); //Asteroid
 		E.update();

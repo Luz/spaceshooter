@@ -57,6 +57,8 @@ Engine::Engine()
 
     mPlayerHandler->newPlayer(MENSCH);
 
+    Keystates = SDL_GetKeyState(NULL);
+
     Fps.start();
 }
 
@@ -122,7 +124,7 @@ void Engine::moveUpdater()
         std::cout << "Engine: mSchussHandler is 0" << std::endl;*/
 }
 
-void Engine::keyPlayer(int key)
+void Engine::keyPlayer(unsigned int key)
 {
     if( (mPlayerHandler != NULL) && (Pause == false) )
     {
@@ -181,7 +183,7 @@ void Engine::setQuit()
 void Engine::exit()
 {
     SDL_FreeSurface(Background);
-    SDL_FreeSurface(Screen); // really not required? may it be required?
+    //SDL_FreeSurface(Screen); dont uncomment this line! forbidden! would crash some systems
     SDL_Quit();
 }
 
@@ -204,11 +206,6 @@ bool Engine::getKeyState(SDLKey key)
         return true;
     else
         return false;
-}
-
-void Engine::readKeyStates()
-{
-    Keystates = SDL_GetKeyState(NULL);
 }
 
 /*void Engine::writeDataInFile(std::string filename)

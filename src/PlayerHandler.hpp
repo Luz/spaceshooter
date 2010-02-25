@@ -22,9 +22,9 @@ class PlayerHandler
 {
     public:
         PlayerHandler(Engine* mengine, SchussHandler* mSchussHandler);
-        void newPlayer(PlayerType typ, std::complex<float> position = 0, float angle=0);
+        void newPlayer(PlayerType typ, std::complex<double> position = 0, double angle=0);
         void updateMovement();
-        void keyDown(int key, unsigned int playernumber=0);
+        void keyDown(unsigned int key, unsigned int playernumber=0);
         void displayAllPlayers();
         virtual ~PlayerHandler();
     private:

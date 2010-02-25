@@ -9,7 +9,7 @@ PlayerHandler::PlayerHandler(Engine* mengine, SchussHandler* mschusshandler)
     //goes through the mPlayers array and puts every pointer to NULL
 }
 
-void PlayerHandler::newPlayer(PlayerType typ, std::complex<float> position, float angle)
+void PlayerHandler::newPlayer(PlayerType typ, std::complex<double> position, double angle)
 {
     for (unsigned int i=0; i!=mPlayers.max_size(); ++i)
     {
@@ -46,7 +46,7 @@ void PlayerHandler::updateMovement()
 }
 
 
-void PlayerHandler::keyDown(int key, unsigned int playernumber)
+void PlayerHandler::keyDown(unsigned int key, unsigned int playernumber)
 {
 /*    for (unsigned int i=0; i!=mPlayers.max_size(); ++i)
     {//let every existing Player calculate the new Position

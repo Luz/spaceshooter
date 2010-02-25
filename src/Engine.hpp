@@ -26,7 +26,7 @@ public:
 	void applySurface(int x, int y, SDL_Surface* source, SDL_Rect* clip = NULL);
 	void addObject(int typ);
 	void moveUpdater();
-	void keyPlayer(int key);
+	void keyPlayer(unsigned int key);
 	void update();
 	bool getQuit();
 	void setQuit();
@@ -34,7 +34,6 @@ public:
 	void limitFps(bool limit);
 	void togglePause();
 	bool getKeyState(SDLKey key);
-	void readKeyStates();
 	//void writeDataInFile(std::string filename);
 	SDL_Surface* getBackground();
 	virtual ~Engine();
