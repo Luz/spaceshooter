@@ -43,15 +43,27 @@ Engine::Engine()
 	if(Screen == NULL)
 	    printf("An error occured: %s\n",SDL_GetError());
 
-	SDL_WM_SetCaption("Waracefighter? Waracealot? Warazealot? Warimat? Wurimat? Ludo? Ludos Tudios?", NULL);
+	SDL_WM_SetCaption("Space Shooter", NULL);
 
-    LoadedBackgroundImage = load_image("data/background.png");
+    LoadedBackgroundImage = loadImage("data/background.png");
 	if(LoadedBackgroundImage == NULL)
 	    std::cout << "Error: Coult not find the background image in data/background.png" << std::endl;
 
-    Background = load_image("data/background.png");
+    Background = loadImage("data/background.png");
 	if(Background == NULL)
 	    std::cout << "Error: Coult not find the background image in data/background.png" << std::endl;
+
+    std::string tmp;
+    //should be done for each object in objecttype
+    for (unsigned int i=0; i!=Images.max_size(); ++i)
+    {
+        tmp = "data/";
+        tmp += (char)(i+49);
+        tmp += ".png";
+        Images[i] = loadImage(tmp);//todo: correct image -> objecttype!
+        if(Images[i] == NULL)
+            std::cout << "should not be here!" << std::endl;
+    }
 
     srand(time(0));
 
@@ -62,7 +74,7 @@ Engine::Engine()
     Fps.start();
 }
 
-SDL_Surface* Engine::load_image(std::string filename)
+SDL_Surface* Engine::loadImage(std::string filename)
 {
     SDL_Surface* loadedImage = NULL;
 	SDL_Surface* optimizedImage = NULL;
@@ -83,7 +95,7 @@ void Engine::addObject(int typ)
     switch (typ)
     {
         case 0:
-            mObjectHandler->newObject(OBJEKT);
+            std::cout << "don't do anything. i'm in file src/Engine.cpp in the method addObject(..)" << std::cout;
             break;
         case 1:
             mObjectHandler->newObject(SPIELER);
@@ -243,4 +255,10 @@ Engine::~Engine()
         delete mPlayerHandler; //not necessary to set the pointer to zero, the engine wont exist in a few
     if(mSchussHandler != NULL)
         delete mSchussHandler; //not necessary to set the pointer to zero, the engine wont exist in a few
+
+    for (unsigned int i=0; i!=Images.max_size(); ++i)
+    { //should be done for each object in objecttype
+        if(Images[i] != NULL)
+            SDL_FreeSurface(Images[i]);
+    }
 }

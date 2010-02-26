@@ -7,7 +7,7 @@
 class Schuss : public Object
 {
     public:
-        Schuss(std::string filename, double angle, std::complex<double> position, double speed, SchussType type=ROCKET);
+        Schuss(Engine* mengine, double angle, std::complex<double> position, double speed, SchussType type=ROCKET);
         unsigned int getAgeWhileAging();
         ~Schuss();
     private:

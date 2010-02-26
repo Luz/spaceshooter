@@ -12,7 +12,7 @@ class Engine;
 class Object
 {
 	public:
-        Object(std::string filename, ObjectType type=OBJEKT, double x = 0, double y = 0, double speedx = 0, double speedy = 0);
+        Object(Engine* mengine, ObjectType type, double x = 0, double y = 0, double speedx = 0, double speedy = 0);
         int getMiddleX();
         int getMiddleY();
         void positionUpdate();
@@ -30,6 +30,7 @@ class Object
         std::complex<double> Speed;
 		double Angle;
 	private:
+        Engine* mEngine;
         SDL_Surface* Image;
         SDL_Surface* RotatedImage;
 		unsigned int Radius;

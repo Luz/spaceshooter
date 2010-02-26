@@ -3,8 +3,8 @@
 
 #include "Spieler.hpp"
 
-Spieler::Spieler(std::string filename, PlayerHandler* mplayerhandler, SchussHandler* mschusshandler, double x, double y)
-: Object(filename,SPIELER, x, y), mPlayerHandler(mplayerhandler), mSchussHandler(mschusshandler), SchussCoolDown(0)
+Spieler::Spieler(Engine* mengine, PlayerHandler* mplayerhandler, SchussHandler* mschusshandler, double x, double y)
+: Object(mengine, SPIELER, x, y), mPlayerHandler(mplayerhandler), mSchussHandler(mschusshandler), SchussCoolDown(0)
 {
 }
 

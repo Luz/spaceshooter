@@ -2,8 +2,8 @@
 
 #include "Rakete.hpp"
 
-Rakete::Rakete(std::string filename, float x, float y) //, SchussHandler* mschusshandler, float x, float y)
-: Object(filename,RAKETE, x, y)//, mSchussHandler(mschusshandler)
+Rakete::Rakete(Engine* mengine, float x, float y) //, SchussHandler* mschusshandler, float x, float y)
+: Object(mengine, RAKETE, x, y)//, mSchussHandler(mschusshandler)
 {
 }
 /*

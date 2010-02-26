@@ -3,8 +3,8 @@
 #include "Asteroid.hpp"
 #include "global.hpp"
 
-Asteroid::Asteroid(std::string filename)
-:Object(filename,ASTEROID), weight(8)
+Asteroid::Asteroid(Engine* mengine)
+:Object(mengine, ASTEROID), weight(8)
 {
     double x0 = -0.2 * SCREEN_WIDTH; //todo: -widthofimg + 0
     double x1 = 1.2 * SCREEN_WIDTH;  //todo: widthofimg + SCREEN_WIDTH

@@ -18,14 +18,10 @@ void PlayerHandler::newPlayer(PlayerType typ, std::complex<double> position, dou
             switch (typ)
             {
                 case 0://MENSCH
-                    mPlayers[i] = dynamic_cast<Spieler*> (new Spieler("data/spieler.png", this, mSchussHandler));
+                    mPlayers[i] = dynamic_cast<Spieler*> (new Spieler(mEngine, this, mSchussHandler));
                     break;
                 /*case 1://ALIEN
                      mPlayers[i] = new Gegner("data/gegner.png"); //todo class gegner
-                    break;
-                case 2://
-                    //mPlayers[i] = dynamic_cast<Player*> (new Rakete("data/rakete.png"));
-                    mPlayers[i] = new Rakete("data/rakete.png");
                     break;*/
                 default://Else
                     std::cout << "dont know this Player, (so didnt created any shit)" << std::endl;

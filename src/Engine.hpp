@@ -22,7 +22,8 @@ class Engine
 {
 public:
     Engine();
-	SDL_Surface* load_image(std::string filename);
+	SDL_Surface* loadImage(std::string filename);
+	SDL_Surface* getObjectImage(ObjectType type) { return Images[type-1]; };
 	void applySurface(int x, int y, SDL_Surface* source, SDL_Rect* clip = NULL);
 	void addObject(int typ);
 	void moveUpdater();
@@ -43,6 +44,7 @@ private:
 	SDL_Surface* Screen;
 	SDL_Surface* Background;
 	SDL_Surface* LoadedBackgroundImage;
+	boost::array<SDL_Surface*, 5> Images; //todo: replace 5 with the length of all objects in ObjectType.h
 	int Frame;
 	bool LimitFps;
 	Timer Fps;

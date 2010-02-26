@@ -12,7 +12,7 @@ class PlayerHandler;
 class Spieler: public Object
 {
     public:
-        Spieler(std::string filename, PlayerHandler* mplayerhandler, SchussHandler* mschusshandler,
+        Spieler(Engine* mengine, PlayerHandler* mplayerhandler, SchussHandler* mschusshandler,
             double x = (double)SCREEN_WIDTH / 2, double y = (double)SCREEN_HEIGHT / 3 * 2 );
         void schiessen();
         void decSchussCoolDown();

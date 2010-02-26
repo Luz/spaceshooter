@@ -9,25 +9,10 @@
 #include "Engine.hpp"
 #include "global.hpp"
 
-Object::Object(std::string filename, ObjectType type, double x, double y, double speedx, double speedy)
-:Type(type), Position(x, y), Speed(speedx + speedy * 1i), Angle(0), Image(NULL), RotatedImage(NULL), Radius(20)
+Object::Object(Engine* mengine, ObjectType type, double x, double y, double speedx, double speedy)
+:Type(type), Position(x, y), Speed(speedx + speedy * 1i), Angle(0),
+    mEngine(mengine), Image(mengine->getObjectImage(type)), RotatedImage(NULL), Radius(20)
 {
-    SDL_Surface* LoadedImage = NULL;
-
-	LoadedImage = IMG_Load(filename.c_str());
-    if(LoadedImage == NULL)
-        std::cout << "Error, maybe Picture not found: " << filename.c_str() << std::endl;
-	else
-	{
-		Image = SDL_DisplayFormatAlpha(LoadedImage);
-		RotatedImage = rotozoomSurface(Image, Angle, 0.9, 1); //and use this one
-		SDL_FreeSurface(LoadedImage);
-	}
-
-	if(Image == NULL)
-        std::cout << "Error, mysterious one A" << filename.c_str() << std::endl;
-    if(LoadedImage == NULL)
-        std::cout << "Error, mysterious one B" << std::endl;
 }
 
 int Object::getMiddleX()
@@ -91,6 +76,5 @@ bool Object::getCriticalPosition()
 
 Object::~Object()
 {
-    SDL_FreeSurface(Image);
     SDL_FreeSurface(RotatedImage);
 }

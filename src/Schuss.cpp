@@ -3,8 +3,8 @@
 
 #include "Schuss.hpp"
 
-Schuss::Schuss(std::string filename, double angle, std::complex<double> position, double speed, SchussType type)
-:Object(filename, SCHUSS, position.real(), position.imag(),
+Schuss::Schuss(Engine* mengine, double angle, std::complex<double> position, double speed, SchussType type)
+:Object(mengine, SCHUSS, position.real(), position.imag(),
 speed*cos((angle+90)/180*M_PI),speed*sin((angle-90)/180*M_PI)), Type(type), Weight(1), Age(0)
 {
     //std::cout << "Schuss::Schuss();" << std::endl;

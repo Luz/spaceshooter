@@ -15,7 +15,7 @@ void SchussHandler::newShoot(std::complex<double> position, double angle, int sc
     {
         if(mSchuesse[i] == NULL) //todo: je nach schusstyp geschwindigkeitsparameter ändern
         {
-            mSchuesse[i] = new Schuss("data/rakete.png", angle, position, 10);
+            mSchuesse[i] = new Schuss(mEngine, angle, position, 10);
             break;
         }
     }

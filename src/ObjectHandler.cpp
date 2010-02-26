@@ -25,14 +25,13 @@ void ObjectHandler::newObject(ObjectType typ, std::complex<float> position, floa
                 //    mObjects[i] = dynamic_cast<Object*> (new Spieler("data/spieler.png"),mschusshandler);
                 //    break;
                 case 2://Asteroid
-                    mObjects[i] = dynamic_cast<Object*> (new Asteroid("data/asteroid.png"));
+                    mObjects[i] = dynamic_cast<Object*> (new Asteroid(mEngine));
                     break;
                 //case 3://Gegner
                 //    mObjects[i] = new Gegner("data/gegner.png"); //todo class gegner
                 //    break;
                 case 4://Rakete
-                    mObjects[i] = dynamic_cast<Object*> (new Rakete("data/rakete.png"));
-                    //mObjects[i] = new Rakete("data/rakete.png");
+                    mObjects[i] = dynamic_cast<Object*> (new Rakete(mEngine));
                     break;
                 //case 5://Schuss
                 //    mObjects[i] = new Schuss("data/spieler.png");

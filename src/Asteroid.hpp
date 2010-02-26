@@ -2,11 +2,14 @@
 #define ASTEROID_HPP
 
 #include "Object.hpp"
+#include "Engine.hpp"
+
+class Engine;
 
 class Asteroid: public Object
 {
     public:
-        Asteroid(std::string filename);
+        Asteroid(Engine* mengine);
         bool getCriticalPosition(); //this overwrites the method of the class Object
         virtual ~Asteroid();
     private:
