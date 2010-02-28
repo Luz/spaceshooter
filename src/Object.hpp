@@ -4,7 +4,7 @@
 #include "SDL/SDL.h"
 #include <string>
 #include <complex>
-
+#include <list>
 #include "ObjectType.h"
 
 class Engine;
@@ -24,13 +24,19 @@ class Object
         ObjectType getType() { return Type; };
         unsigned int getRadius() { return Radius; };
         virtual ~Object();
+        static void UpdateAll();
+        static void ShowAll();
+        
     protected:
         ObjectType Type;
         std::complex<double> Position;
         std::complex<double> Speed;
-		double Angle;
-	private:
+				double Angle;
+        virtual bool Update();
+        virtual void Show();
+        static std::list<Object*>  AllObjects;
         Engine* mEngine;
+	private:
         SDL_Surface* Image;
         SDL_Surface* RotatedImage;
 		unsigned int Radius;

@@ -9,10 +9,13 @@
 #include "Engine.hpp"
 #include "global.hpp"
 
+std::list<Object*> Object::AllObjects;
+
 Object::Object(Engine* mengine, ObjectType type, double x, double y, double speedx, double speedy)
 :Type(type), Position(x, y), Speed(speedx + speedy * 1i), Angle(0),
-    mEngine(mengine), Image(mengine->getObjectImage(type)), RotatedImage(NULL), Radius(20)
+    mEngine(mengine), Image(0), RotatedImage(NULL), Radius(20)
 {
+	AllObjects.push_back(this);
 }
 
 int Object::getMiddleX()
@@ -24,6 +27,12 @@ int Object::getMiddleY()
 {   //0.5f has been outcommented, because its not much
     return (int)(Position.imag() - (getRotatedImg()->h / 2) );//+ 0.5l);
 } //todo: very slow to check the size of the rotatedimg each time?
+
+bool Object::Update()
+{
+	positionUpdate();
+	return 1;	
+}
 
 void Object::positionUpdate()
 {
@@ -76,5 +85,45 @@ bool Object::getCriticalPosition()
 
 Object::~Object()
 {
-    SDL_FreeSurface(RotatedImage);
+  SDL_FreeSurface(RotatedImage);
+}
+
+void Object::Show()
+{
+	if(!Image)  Image = mEngine->getObjectImage(Type);
+  SDL_Surface* tmp = mEngine->getBackground();
+  if(tmp == 0)
+      std::cout << "tmp is 0, cant blit that" << std::endl;
+  SDL_Rect offset;
+  offset.x = getMiddleX();
+  offset.y = getMiddleY();
+  SDL_BlitSurface(getRotatedImg(), NULL, tmp, &offset);
+}
+
+void Object::UpdateAll()
+{
+  std::list<Object*>::iterator ObjItr;
+  for(ObjItr = AllObjects.begin(); ObjItr != AllObjects.end(); ObjItr++)
+  {
+  	if(ObjItr != AllObjects.end())
+  	{
+	  	bool isLive = (*ObjItr)->Update();
+/*	  	if(!isLive)
+	  	{
+	  		delete (*ObjItr);
+	  		_AllObjects.remove(*ObjItr);
+	  		ObjItr--;
+	  	}*/
+  	}
+  }
+}
+
+void Object::ShowAll()
+{
+  std::list<Object*>::iterator ObjItr;
+  for(ObjItr = AllObjects.begin(); ObjItr != AllObjects.end(); ObjItr++)
+  {
+
+	  (*ObjItr)->Show();
+  }	
 }

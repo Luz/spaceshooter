@@ -9,9 +9,10 @@
 
 int main()
 {
+    
     Engine E;
     SDL_Event event;
-Uint8* Keystates = SDL_GetKeyState(NULL);
+    Uint8* Keystates = SDL_GetKeyState(NULL);
 	while(false == E.getQuit())
 	{
 		while(SDL_PollEvent(&event))

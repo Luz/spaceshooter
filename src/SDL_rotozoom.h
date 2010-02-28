@@ -21,7 +21,7 @@ extern "C" {
 #define M_PI	3.141592654
 #endif
 
-#include "SDL.h"
+#include <SDL/SDL.h>
 
 /* ---- Defines */
 
@@ -31,14 +31,14 @@ extern "C" {
 /* ---- Structures */
 
     typedef struct tColorRGBA {
-	Uint8 r;
-	Uint8 g;
-	Uint8 b;
-	Uint8 a;
+	char r;
+	char g;
+	char b;
+	char a;
     } tColorRGBA;
 
     typedef struct tColorY {
-	Uint8 y;
+	char y;
     } tColorY;
 
 

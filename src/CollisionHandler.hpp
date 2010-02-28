@@ -1,8 +1,6 @@
 #ifndef COLLISIONHANDLER_H
 #define COLLISIONHANDLER_H
 
-#include <boost/array.hpp>
-
 #include "Engine.hpp"
 #include "Object.hpp"
 //#include "ObjectHandler.hpp"

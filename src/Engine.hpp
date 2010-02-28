@@ -5,23 +5,17 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
 #include <string>
-#include <boost/array.hpp>
+#include <vector>
 
 #include "timer.hpp"
-#include "SchussHandler.hpp"
-#include "ObjectHandler.hpp"
-#include "PlayerHandler.hpp"
+#include "Spieler.hpp"
 
-class Spieler;
 class Timer;
-class SchussHandler;
-class ObjectHandler;
-class PlayerHandler;
 
 class Engine
 {
 public:
-    Engine();
+  Engine();
 	SDL_Surface* loadImage(std::string filename);
 	SDL_Surface* getObjectImage(ObjectType type) { return Images[type-1]; };
 	void applySurface(int x, int y, SDL_Surface* source, SDL_Rect* clip = NULL);
@@ -41,18 +35,16 @@ public:
 private:
     static int Enginecounter;
     bool quit;
-	SDL_Surface* Screen;
-	SDL_Surface* Background;
-	SDL_Surface* LoadedBackgroundImage;
-	boost::array<SDL_Surface*, 5> Images; //todo: replace 5 with the length of all objects in ObjectType.h
-	int Frame;
-	bool LimitFps;
-	Timer Fps;
-	bool Pause;
-	Uint8* Keystates;
-	ObjectHandler* mObjectHandler;
-	SchussHandler* mSchussHandler;
-	PlayerHandler* mPlayerHandler;
+		SDL_Surface* Screen;
+		SDL_Surface* Background;
+		SDL_Surface* LoadedBackgroundImage;
+		std::vector<SDL_Surface*> Images;
+		int Frame;
+		bool LimitFps;
+		Timer Fps;
+		bool Pause;
+		Uint8* Keystates;
+		Spieler Player;
 };
 
 #endif
