@@ -91,7 +91,7 @@ Object::~Object()
 void Object::Show()
 {
 	if(!Image)  Image = mEngine->getObjectImage(Type);
-  SDL_Surface* tmp = mEngine->getBackground();
+  SDL_Surface* tmp = mEngine->getScreen();
   if(tmp == 0)
       std::cout << "tmp is 0, cant blit that" << std::endl;
   SDL_Rect offset;

@@ -1,6 +1,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
+#include <SDL_opengl.h>
 #include <string>
 #include <iostream>
 
@@ -17,8 +18,8 @@
 int Engine::Enginecounter=0;
 
 Engine::Engine()
-:quit(0), Screen(NULL), Background(NULL), LoadedBackgroundImage(NULL), Frame(0),
-    LimitFps(true), Pause(false), Keystates(SDL_GetKeyState(NULL)),
+:quit(0), Screen(NULL), Background(NULL), Frame(0),
+    ListCounter(0),LimitFps(true), Pause(false), Keystates(SDL_GetKeyState(NULL)),
     Player(this)
 {
     if(Enginecounter == 0)
@@ -35,11 +36,7 @@ Engine::Engine()
 
 	SDL_WM_SetCaption("Space Shooter", NULL);
 
-    LoadedBackgroundImage = loadImage("data/background.png");
-	if(LoadedBackgroundImage == NULL)
-	    std::cerr << "Error: Coult not find the background image in data/background.png" << std::endl;
-
-    Background = loadImage("data/background.png");
+  Background = loadImage("data/background.png");
 	if(Background == NULL)
 	    std::cerr << "Error: Coult not find the background image in data/background.png" << std::endl;
 
@@ -61,6 +58,72 @@ Engine::Engine()
     Fps.start();
 }
 
+int	 Engine::loadGLImage(std::string filename)
+{
+	SDL_Surface* loadedImage = NULL;
+	SDL_Surface* optimizedImage = NULL;
+	SDL_Surface* conv;
+	float GLSize=1.0;
+	unsigned texture;
+  ListCounter++;
+
+	loadedImage = IMG_Load(filename.c_str());
+  
+	if(loadedImage != NULL)
+	{
+		optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
+		SDL_FreeSurface(loadedImage);
+	}
+
+	if(optimizedImage == NULL)
+        std::cout << "Error, maybe Picture not found: " << filename.c_str() << std::endl;
+
+	  conv = SDL_CreateRGBSurface(SDL_SWSURFACE,
+	  													  optimizedImage->w,
+	  													  optimizedImage->h,
+	  													  32,
+	  #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+	            0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+	  #else
+	                        0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+	  #endif
+	  SDL_BlitSurface(optimizedImage, 0, conv, 0);
+
+
+	  glGenTextures(1, &texture);  
+	  glBindTexture(GL_TEXTURE_2D, texture);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  
+	  glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);  
+	  glTexImage2D(GL_TEXTURE_2D, 0, 3, conv->w, conv->h, 0, GL_RGBA,
+	               GL_UNSIGNED_BYTE, conv->pixels); 
+	               
+    glNewList(ListCounter,GL_COMPILE);
+	  glColor3ub(255, 255, 255);
+	  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+
+	  glEnable(GL_TEXTURE_2D);
+ //   glEnable(GL_BLEND);
+//	  glBlendFunc(GL_ONE, GL_ONE);
+	  glBindTexture(GL_TEXTURE_2D, texture);
+	  glBegin(GL_QUADS);
+	  
+//	    float factor = 0.1;
+	    glTexCoord2f(0, 1);    glVertex2d(0, 0);
+	    glTexCoord2f(1, 1);    glVertex2d( conv->w*GLSize,0);
+	    glTexCoord2f(1, 0);    glVertex2d( conv->w*GLSize,conv->h*GLSize);
+	    glTexCoord2f(0, 0);    glVertex2d(0,conv->h*GLSize);
+	  glEnd();    
+	  glDisable(GL_TEXTURE_2D);
+//	  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+	  glEndList();
+  	
+  std::cout << "GL-image load: " << filename << ", " << ListCounter << std::endl;
+
+  return   ListCounter;
+}
+
+
 SDL_Surface* Engine::loadImage(std::string filename)
 {
 	SDL_Surface* loadedImage = NULL;
@@ -74,13 +137,13 @@ SDL_Surface* Engine::loadImage(std::string filename)
 		SDL_FreeSurface(loadedImage);
 	}
 
-
 	if(optimizedImage == NULL)
         std::cout << "Error, maybe Picture not found: " << filename.c_str() << std::endl;
 
   std::cout << "image load: " << filename << std::endl;
 
   return optimizedImage;
+	
 }
 
 void Engine::addObject(int typ)
@@ -125,12 +188,7 @@ void Engine::update()
 {
     if(Pause == false)
     {
-        moveUpdater();
-
-        SDL_BlitSurface(LoadedBackgroundImage, NULL, Background, NULL);
-
-        Object::UpdateAll();
-        
+        Object::UpdateAll();        
 
         SDL_BlitSurface(Background, NULL, Screen, NULL); //draw the background on the screen
         Object::ShowAll();
@@ -208,7 +266,7 @@ bool Engine::getKeyState(SDLKey key)
 
 SDL_Surface* Engine::getBackground()
 {
-    return Background;
+    return Screen;
 }
 
 Engine::~Engine()

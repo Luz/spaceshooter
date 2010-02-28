@@ -11,7 +11,7 @@ Spieler::Spieler(Engine* mengine, double x, double y)
 
 void Spieler::schiessen()
 {
-	  new Schuss(mEngine,Angle,Position,100.0);
+	  new Schuss(mEngine,Angle,Position,5.0);
 
     SchussCoolDown = 3;
 }
