@@ -8,10 +8,16 @@ CollisionHandler::CollisionHandler(Engine* mengine)//, ObjectHandler* mobjecthan
     //for (int i=0; i!=mSchuesse.max_size(); ++i) mSchuesse[i] = NULL;
 }
 
-bool CollisionHandler::checkCollision(std::complex<double> position1, unsigned int radius1,
-                                        std::complex<double> position2, unsigned int radius2)
+bool CollisionHandler::checkCollision(std::complex<double> pos1, unsigned int radius1,
+                                      std::complex<double> pos2, unsigned int radius2)
 {
-    return false; //todo: implement this method!
+	float x = pos1.real() - pos2.real()
+	float y = pos1.imag() - pos2.imag();
+	float distanz = sqrt(x*x+y*y);
+
+	if (distanz < (radius1+radius2) )
+		return true;
+	return false;
 }
 
 void CollisionHandler::executeCollision()
