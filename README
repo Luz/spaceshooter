@@ -1,21 +1,3 @@
-little help for Luz:
-
-zersch:
-git commit -a
-iblablabla:wq
-git commit -a
-
-ev:
-git add README
-
-denn:
-git push origin master
-
-git notes roughl:
-# view your changes
-git status
-git diff
-
 # commit your changes:
 git add "list-of-your-changed-files"
 git commit -m "your message"
@@ -24,10 +6,12 @@ git push origin master
 # update
 git pull
 
+# view your changes
+git status
+git diff
 
-little help for guggi:
-compilieren mit folgendem ide linker-optionä:
+
+compile with these flags:
 -lSDL -lSDL_image
-
-oder mit
--lSDL -lSDL_image -lSDL_ttf
+not sure if this will be needed:
+-lSDL_ttf

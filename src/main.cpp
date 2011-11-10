@@ -9,14 +9,13 @@
 
 int main()
 {
-    
     Engine E;
     SDL_Event event;
     Uint8* Keystates = SDL_GetKeyState(NULL);
 	while(false == E.getQuit())
 	{
 		while(SDL_PollEvent(&event))
-		{//de ganz scheiss useschmeisse und sofort ufd igabe reagiere gaht schneller, glichr meinig?
+		{//it could be faster if the whole shit gets kicked out and the keystates gets readed immediately?
 			if(event.type == SDL_QUIT)
 				E.setQuit();
 			if(event.type == SDL_KEYDOWN)
@@ -27,13 +26,12 @@ int main()
                 {
                     switch(event.key.keysym.sym)
                     {
-                        case SDLK_s:        E.addObject(1); break; //Spieler
-                        case SDLK_g:        E.addObject(3); break; //Gegner
-                        case SDLK_r:        E.addObject(4); break; //Rakete
+                        case SDLK_s:        E.addObject(PLAYER); break; //Spieler
+                        case SDLK_g:        E.addObject(ENEMY); break; //Gegner
                         //case SDLK_0:        E.writeDataInFile("test.txt"); break;
 
-                        case SDLK_u:        E.limitFps(false); break; // in final version, these
-                        case SDLK_l:        E.limitFps(true); break; //  two should be removed
+                        case SDLK_u:        E.limitFps(false); break;// in final version, these
+                        case SDLK_i:        E.limitFps(true); break; // two should be removed
 
                         case SDLK_d:        E.setQuit(); break;
                         case SDLK_q:        E.setQuit(); break;
@@ -52,18 +50,22 @@ int main()
             {std::cout << "c" << std::endl;}
         //not able to press all 3 buttons at the same time... who can find the bug?
 
-        if(E.getKeyState(SDLK_UP))
+        if(E.getKeyState(SDLK_UP) || E.getKeyState(SDLK_k))
             E.keyPlayer(1);// std::cout << "UP" << std::endl;}
-        if(E.getKeyState(SDLK_DOWN))
+        if(E.getKeyState(SDLK_DOWN) || E.getKeyState(SDLK_j))
             E.keyPlayer(2);
-        if(E.getKeyState(SDLK_LEFT))
+        if(E.getKeyState(SDLK_LEFT) || E.getKeyState(SDLK_h))
             E.keyPlayer(3);// std::cout << "LEFT" << std::endl;}
-        if(E.getKeyState(SDLK_RIGHT))
+        if(E.getKeyState(SDLK_RIGHT) || E.getKeyState(SDLK_l))
             E.keyPlayer(4);
+
         if(E.getKeyState(SDLK_SPACE))
-            E.keyPlayer(5);// std::cout << "SPACE" << std::endl;}
+            E.keyPlayer(5);
+        if(E.getKeyState(SDLK_b))
+            E.keyPlayer(6);
+
         if(E.getKeyState(SDLK_a))
-            E.addObject(2); //Asteroid
+            E.addObject(ASTEROID);
 		E.update();
 	}
 	E.exit();

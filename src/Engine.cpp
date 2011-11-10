@@ -1,7 +1,6 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
-#include <SDL_opengl.h>
 #include <string>
 #include <iostream>
 
@@ -11,24 +10,33 @@
 
 #include "global.hpp"
 #include "Engine.hpp"
-#include "Rakete.hpp"
 #include "Asteroid.hpp"
-
 
 int Engine::Enginecounter=0;
 
 Engine::Engine()
-:quit(0), Screen(NULL), Background(NULL), Frame(0),
-    ListCounter(0),LimitFps(true), Pause(false), Keystates(SDL_GetKeyState(NULL)),
-    Player(this)
+:quit(0), Screen(NULL), Background(NULL), LoadedBackgroundImage(NULL), Frame(0),
+    LimitFps(true), Pause(false), Keystates(SDL_GetKeyState(NULL))
 {
     if(Enginecounter == 0)
         Enginecounter++;
     else
-        std::cerr << "Haha, you now have two Engines... n00b, now you have definedely the Senf" << std::endl;
+        std::cout << "Haha, you now have two Engines... n00b, now you have definedely the Senf" << std::endl;
+
+    mSchussHandler = new SchussHandler(this);
+    if(mSchussHandler == NULL)
+        std::cout << "An error occured: Could not create a SchussHandler" << std::endl;
+
+    mObjectHandler = new ObjectHandler(this);
+    if(mObjectHandler == NULL)
+        std::cout << "An error occured: Could not create a ObjectHandler" << std::endl;
+
+    mPlayerHandler = new PlayerHandler(this, mSchussHandler);
+    if(mPlayerHandler == NULL)
+        std::cout << "An error occured: Could not create a PlayerHandler" << std::endl;
 
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1)
-        std::cerr << "An error occurred: Could not initialise SDL" << std::endl;
+        std::cout << "An error occurred: Could not initialise SDL" << std::endl;
 
 	Screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
 	if(Screen == NULL)
@@ -36,162 +44,127 @@ Engine::Engine()
 
 	SDL_WM_SetCaption("Space Shooter", NULL);
 
-  Background = loadImage("data/background.png");
+    LoadedBackgroundImage = loadImage("data/background.png");
+	if(LoadedBackgroundImage == NULL)
+	    std::cout << "Error: Coult not find the background image in data/background.png" << std::endl;
+
+    Background = loadImage("data/background.png");
 	if(Background == NULL)
-	    std::cerr << "Error: Coult not find the background image in data/background.png" << std::endl;
+	    std::cout << "Error: Coult not find the background image in data/background.png" << std::endl;
 
     std::string tmp;
     //should be done for each object in objecttype
-    for (unsigned int i=0; i!=5; ++i)
+    for (unsigned int i=0; i!=Images.max_size(); ++i)
     {
         tmp = "data/";
         tmp += (char)(i+49);
         tmp += ".png";
-     
-        Images.push_back(loadImage(tmp));//todo: correct image -> objecttype!
+        Images[i] = loadImage(tmp);//todo: correct image -> objecttype!
+        if(Images[i] == NULL)
+            std::cout << "should not be here!" << std::endl;
     }
+
     srand(time(0));
 
+    mPlayerHandler->newPlayer(HUMAN);
+
     Keystates = SDL_GetKeyState(NULL);
-    std::cout << "Engine start" << std::endl;
 
     Fps.start();
 }
 
-int	 Engine::loadGLImage(std::string filename)
-{
-	SDL_Surface* loadedImage = NULL;
-	SDL_Surface* optimizedImage = NULL;
-	SDL_Surface* conv;
-	float GLSize=1.0;
-	unsigned texture;
-  ListCounter++;
-
-	loadedImage = IMG_Load(filename.c_str());
-  
-	if(loadedImage != NULL)
-	{
-		optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
-		SDL_FreeSurface(loadedImage);
-	}
-
-	if(optimizedImage == NULL)
-        std::cout << "Error, maybe Picture not found: " << filename.c_str() << std::endl;
-
-	  conv = SDL_CreateRGBSurface(SDL_SWSURFACE,
-	  													  optimizedImage->w,
-	  													  optimizedImage->h,
-	  													  32,
-	  #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-	            0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-	  #else
-	                        0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-	  #endif
-	  SDL_BlitSurface(optimizedImage, 0, conv, 0);
-
-
-	  glGenTextures(1, &texture);  
-	  glBindTexture(GL_TEXTURE_2D, texture);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  
-	  glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);  
-	  glTexImage2D(GL_TEXTURE_2D, 0, 3, conv->w, conv->h, 0, GL_RGBA,
-	               GL_UNSIGNED_BYTE, conv->pixels); 
-	               
-    glNewList(ListCounter,GL_COMPILE);
-	  glColor3ub(255, 255, 255);
-	  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-
-	  glEnable(GL_TEXTURE_2D);
- //   glEnable(GL_BLEND);
-//	  glBlendFunc(GL_ONE, GL_ONE);
-	  glBindTexture(GL_TEXTURE_2D, texture);
-	  glBegin(GL_QUADS);
-	  
-//	    float factor = 0.1;
-	    glTexCoord2f(0, 1);    glVertex2d(0, 0);
-	    glTexCoord2f(1, 1);    glVertex2d( conv->w*GLSize,0);
-	    glTexCoord2f(1, 0);    glVertex2d( conv->w*GLSize,conv->h*GLSize);
-	    glTexCoord2f(0, 0);    glVertex2d(0,conv->h*GLSize);
-	  glEnd();    
-	  glDisable(GL_TEXTURE_2D);
-//	  glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-	  glEndList();
-  	
-  std::cout << "GL-image load: " << filename << ", " << ListCounter << std::endl;
-
-  return   ListCounter;
-}
-
-
 SDL_Surface* Engine::loadImage(std::string filename)
 {
-	SDL_Surface* loadedImage = NULL;
+    SDL_Surface* loadedImage = NULL;
 	SDL_Surface* optimizedImage = NULL;
 	loadedImage = IMG_Load(filename.c_str());
-  
 
 	if(loadedImage != NULL)
 	{
 		optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
 		SDL_FreeSurface(loadedImage);
 	}
-
 	if(optimizedImage == NULL)
         std::cout << "Error, maybe Picture not found: " << filename.c_str() << std::endl;
-
-  std::cout << "image load: " << filename << std::endl;
-
-  return optimizedImage;
-	
+    return optimizedImage;
 }
 
-void Engine::addObject(int typ)
+void Engine::addObject(ObjectType type)
 {
-    switch (typ)
+    switch (type)
     {
-        case 0:
-            std::cout << "don't do anything. i'm in file src/Engine.cpp in the method addObject(..)" << std::cout;
+        case PLAYER:
+            mObjectHandler->newObject(PLAYER);
             break;
-//        case 1:
-//            mObjectHandler->newObject(SPIELER);
-//            break;
-        case 2:
-            new Asteroid(this);
+        case ASTEROID:
+            mObjectHandler->newObject(ASTEROID);
             break;
-//        case 3:
-//            mObjectHandler->newObject(GEGNER);
-//            break;
-        case 4:
-            new Rakete(this);
+        case ENEMY:
+            mObjectHandler->newObject(ENEMY);
             break;
-//        case 5:
-//            new Schuss(this);
-//            break;
+        case ROCKET:
+            mObjectHandler->newObject(ROCKET);
+            break;
+        case GREEN:
+            mObjectHandler->newObject(GREEN);
+            break;
         default:
-            std::cout << "unknown object -> didn't created any shit" << std::endl;
+            std::cout << "unknown object -> didn't created any shit!" << std::endl;
             break;
     }
 }
 
 void Engine::moveUpdater()
 {
-    Object::UpdateAll();
+    if(mPlayerHandler != NULL) //let the playerhandler calculate the new position of the player
+        mPlayerHandler->updateMovement();
+    /*else
+        std::cout << "Engine: mPlayerHandler is 0" << std::endl;*/
+
+    if(mObjectHandler != NULL)
+        mObjectHandler->updateMovement();
+    /*else
+        std::cout << "Engine: mObjectHandler is 0" << std::endl;*/
+
+    if(mSchussHandler != NULL)
+        mSchussHandler->updateMovement();
+    /*else
+        std::cout << "Engine: mSchussHandler is 0" << std::endl;*/
 }
 
 void Engine::keyPlayer(unsigned int key)
 {
-	 Player.keyDown(key);
+    if( (mPlayerHandler != NULL) && (Pause == false) )
+    {
+        mPlayerHandler->keyDown(key);
+    }
 }
 
 void Engine::update()
 {
     if(Pause == false)
     {
-        Object::UpdateAll();        
+        moveUpdater();
+
+        SDL_BlitSurface(LoadedBackgroundImage, NULL, Background, NULL);
+
+        if(mPlayerHandler != NULL)
+            mPlayerHandler->displayAllPlayers();//draw the players on the background
+        else
+            std::cout << "Error: mPlayerHandler is 0" << std::endl;
+
+        if(mObjectHandler != NULL) //draw the objects on the background
+            mObjectHandler->displayAllObjects();
+        else
+            std::cout << "Error: mObjectHandler is 0" << std::endl;
+
+        if(mSchussHandler != NULL) //draw the shoots on the background
+            mSchussHandler->displayAllShoots();
+        else
+            std::cout << "Error: mSchussHandler is 0" << std::endl;
 
         SDL_BlitSurface(Background, NULL, Screen, NULL); //draw the background on the screen
-        Object::ShowAll();
+
         SDL_Flip(Screen); //show the new screen
         //std::cout << "Frame Number: " << Frame << std::endl;
 
@@ -266,11 +239,18 @@ bool Engine::getKeyState(SDLKey key)
 
 SDL_Surface* Engine::getBackground()
 {
-    return Screen;
+    return Background;
 }
 
 Engine::~Engine()
 {
+    //not necessary to set the pointer to zero, the engine wont exist in a few
+    delete mObjectHandler;
+
+    if(mPlayerHandler != NULL)
+        delete mPlayerHandler; //not necessary to set the pointer to zero, the engine wont exist in a few
+    if(mSchussHandler != NULL)
+        delete mSchussHandler; //not necessary to set the pointer to zero, the engine wont exist in a few
 
     for (unsigned int i=0; i!=Images.max_size(); ++i)
     { //should be done for each object in objecttype

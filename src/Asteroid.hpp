@@ -10,7 +10,6 @@ class Asteroid: public Object
 {
     public:
         Asteroid(Engine* mengine);
-        bool getCriticalPosition(); //this overwrites the method of the class Object
         virtual ~Asteroid();
     private:
         unsigned int weight;

@@ -24,18 +24,6 @@ Asteroid::Asteroid(Engine* mengine)
     Angle = 360 * rand() / ((double) RAND_MAX);
 }
 
-bool Asteroid::getCriticalPosition()
-{
-    if(     (Position.real() <= SCREEN_WIDTH * -0.25)
-        ||  (Position.real() >= SCREEN_WIDTH * 1.25)
-        ||  (Position.imag() <= SCREEN_HEIGHT * -0.25)
-        ||  (Position.imag() >= SCREEN_HEIGHT * 1.25)    )
-        {
-            return true;
-        }
-    return false; //else
-}
-
 Asteroid::~Asteroid()
 {
 }

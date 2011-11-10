@@ -2,16 +2,16 @@
 #define SCHUSS_HPP
 
 #include "Object.hpp"
-#include "SchussType.h"
+#include "ObjectType.h"
 
 class Schuss : public Object
 {
     public:
-        Schuss(Engine* mengine, double angle, std::complex<double> position, double speed, SchussType type=ROCKET);
+        Schuss(Engine* mengine, double angle, std::complex<double> position, double speed, ObjectType type);
         unsigned int getAgeWhileAging();
         ~Schuss();
     private:
-        SchussType Type;
+        ObjectType Type;
         unsigned int Weight;
         unsigned int Age; // Age in Frames
 };

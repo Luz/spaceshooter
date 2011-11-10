@@ -1,1 +1,1 @@
-typedef enum{MENSCH,ALIEN} PlayerType;
+typedef enum{HUMAN,ALIEN} PlayerType;
